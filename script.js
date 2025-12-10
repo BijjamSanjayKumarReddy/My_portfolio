@@ -98,3 +98,31 @@ document.getElementById("contact-form").addEventListener("submit", function(even
     console.error("Error:", error);
   });
 });
+
+document.getElementById("contact-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const fullname = document.getElementById("fullname").value;
+    const email = document.getElementById("email").value;
+    const mobile = document.getElementById("mobile").value;
+    const subject = document.getElementById("subject").value;
+    const message = document.getElementById("message").value;
+
+    // Convert to Excel row format
+    const data = [
+        ["Full Name", "Email", "Mobile", "Subject", "Message"],
+        [fullname, email, mobile, subject, message]
+    ];
+
+    // Create worksheet & workbook
+    const ws = XLSX.utils.aoa_to_sheet(data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Contact Data");
+
+    // Download as Excel file
+    XLSX.writeFile(wb, "Contact_Form_Data.xlsx");
+
+    alert("Excel file downloaded successfully!");
+});
+
+
